@@ -33,7 +33,7 @@ def solution(play_time, adv_time, logs):
         if temp > watch:
             watch = temp
             answer = reverseSec(i)
-            print(answer)
+            print(temp)
 
     return answer
 
