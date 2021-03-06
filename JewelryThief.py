@@ -24,7 +24,5 @@ for _ in range(K):
 
     if jewel:
         answer -= heapq.heappop(jewel)
-    elif not jewel:
-        break
 
 print(answer)
