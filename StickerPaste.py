@@ -8,7 +8,7 @@ def search(sticker):
     global board
     #print(np.asarray(sticker))
     #print("board")
-    #print(np.asarray(board))
+    #print(np.asarray(board))1
     for x in range(N-R+1):
         for y in range(M-C+1):
             thisFit = True
@@ -26,12 +26,10 @@ def search(sticker):
 
 
 def rotate(sticker):
-    #print('rotate')
-    sticker = sticker[::-1]
     newSticker = [[0 for _ in range(R)] for _ in range(C)]
     for r in range(R):
         for c in range(C):
-            newSticker[c][r] = sticker[r][c]
+            newSticker[c][R-1-r] = sticker[r][c]
     return newSticker
 
 
