@@ -34,16 +34,15 @@ def findPath(adj_lst):
                             break
 
                         if board[nx][ny] and board[nx][ny] != board[x][y]:
-                            if board[nx-m[0]][ny-m[1]] == board[nx][ny]:
-                                continue
-                            cost = abs(nx - x) + abs(ny - y) - 1
-                            if 2 <= cost < adj_lst[board[x][y]-1][board[nx][ny]-1]:
-                                #print('start:', [x, y] , board[x][y], '--> end', [nx, ny], board[nx][ny])
-                                #print(cost)
-                                #print()
-                                adj_lst[board[x][y] - 1][board[nx][ny] - 1] = cost
-                                #adj_lst[board[nx][ny] - 1][board[x][y] - 1] = cost
-                                #break
+                            if board[nx-m[0]][ny-m[1]] == 0:
+                                cost = abs(nx - x) + abs(ny - y) - 1
+                                if 2 <= cost < adj_lst[board[x][y]-1][board[nx][ny]-1]:
+                                    #print('start:', [x, y] , board[x][y], '--> end', [nx, ny], board[nx][ny])
+                                    #print(cost)
+                                    #print()
+                                    adj_lst[board[x][y] - 1][board[nx][ny] - 1] = cost
+                                    #adj_lst[board[nx][ny] - 1][board[x][y] - 1] = cost
+                                    break
 
 
 def find(parent, x):
