@@ -69,8 +69,8 @@ for i in range(len(answer)):
     answer[i].sort()
 answer.sort(key=lambda x: x[0])
 
+print(len(answer))
 for l in range(len(answer)):
     for i in answer[l]:
         print(i, end=" ")
-    if l != len(answer)-1:
-        print('-1')
+    print('-1')
