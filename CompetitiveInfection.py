@@ -1,32 +1,31 @@
-import sys
 from collections import deque
 
-N, K = map(int, sys.stdin.readline().split())
-board = [list(map(int, sys.stdin.readline().split())) for _ in range(N)]
-S, X, Y = map(int, sys.stdin.readline().split())
-dx = [1, 0, -1, 0]
-dy = [0, 1, 0, -1]
-time = 0
+
+N, K = map(int, input().split())
+board = [list(map(int, input().split())) for _ in range(N)]
+S, X, Y = map(int, input().split())
+MOVEMENT = [[0, 1], [-1, 0], [0, -1], [1, 0]]
+queue = []
 temp = []
 
 for i in range(N):
     for j in range(N):
         if board[i][j]:
-            temp.append((board[i][j], i, j))
+            queue.append([i, j, board[i][j]])
 
-temp.sort()
-queue = deque(temp)
+queue.sort(key=lambda x:x[-1], reverse=True)
 
-while S:
-    lenq = len(queue)
-    while lenq:
-        virus, x, y = queue.popleft()
-        for m in range(4):
-            nx, ny = x + dx[m], y + dy[m]
+for _ in range(S):
+    queue.sort(key=lambda x:x[-1], reverse=True)
+    while queue:
+        x, y, virus = queue.pop()
+        for m in MOVEMENT:
+            nx, ny = x + m[0], y + m[1]
             if 0 <= nx < N and 0 <= ny < N:
                 if not board[nx][ny]:
                     board[nx][ny] = virus
-                    queue.append((virus, nx, ny))
-        lenq -= 1
-    S -= 1
+                    temp.append([nx, ny, virus])
+    queue = temp
+    temp = []
+
 print(board[X-1][Y-1])
