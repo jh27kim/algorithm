@@ -2,7 +2,6 @@ from collections import defaultdict
 
 
 def solution(land, P, Q):
-    answer = -1
     N = len(land)
     blocks = defaultdict(int)
 

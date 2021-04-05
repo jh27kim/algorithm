@@ -1,5 +1,4 @@
 def solution(strs, t):
-    answer = 0
     MAX = int(1e9)
     n = len(t)
     dp = [MAX] * (n + 1)
@@ -14,7 +13,5 @@ def solution(strs, t):
                 s = i - k
             if t[s:i] in strs:
                 dp[i] = min(dp[i], dp[i - k] + 1)
-
-    print(dp)
 
     return dp[-1] if dp[-1] != MAX else -1
