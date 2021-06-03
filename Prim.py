@@ -1,5 +1,7 @@
 import heapq
 
+'''
+
 myedges = [
     (1, 0, 1), (2, 1, 2), (3, 0, 2)
 ]
@@ -32,7 +34,35 @@ def prim(start, edges):
 
     return mst
 
-print(prim(0, myedges))
+print(prim(0, myedges))'''
 
 
+V, E = map(int, input().split())
+adj_lst = [[] for _ in range(V+1)]
+visited = [0] * (V+1)
+answer = 0
+edges = 0
 
+for _ in range(E):
+    a, b, c = map(int, input().split())
+    adj_lst[a].append([c, a, b])
+    adj_lst[b].append([c, b, a])
+
+start = 1
+queue = []
+visited[start] = 1
+
+queue = adj_lst[start]
+heapq.heapify(queue)
+
+while queue:
+    cost, fro, to = heapq.heappop(queue)
+    if not visited[to]:
+        visited[to] = 1
+        answer += cost
+
+        for edge in adj_lst[to]:
+            if not visited[edge[2]]:
+                heapq.heappush(queue, edge)
+
+print(answer)
