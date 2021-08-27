@@ -1,58 +1,45 @@
-import time
 import sys
-start_time = time.time()
 
-num = list(map(int, input().split()))
-rook = list(range(4))
+number = list(map(int, input().split()))
 queue = []
-route = [[i for i in range(1, 41) if i % 2 == 0],
+answer = -10000
+sys.setrecursionlimit(1000000)
+
+board = [[i for i in range(1, 41) if i % 2 == 0],
          [13, 16, 19, 25, 30, 35, 40, 0],
          [22, 24, 25, 30, 35, 40, 0],
          [28, 27, 26, 25, 30, 35, 40, 0]]
 
-route[0].append(True)
-answer = -sys.maxsize
-
 
 def move():
-    #[현재 길, 현재 index]
+    cur = [-1, -1, -1, -1]
+    path = [[0, -1], [0, -1], [0, -1], [0, -1]]
     score = 0
-    result = [[0, 0], [0, 0], [0, 0], [0, 0]]
-    cursor = [0, 0, 0, 0]
-    #print(queue)
-    for j in range(10):
-        if result[queue[j]][0] == -1:
+
+    for i in range(10):
+        #print(cur)
+        pathNumber, position = path[queue[i]]
+
+        if position + number[i] >= len(board[pathNumber]):
+            path[queue[i]][1] = len(board[pathNumber]) - 1
+            cur[queue[i]] = 0
+            continue
+
+        if position + number[i] in cur:
             return -1
 
-        rt, ind = result[queue[j]]
+        if cur[queue[i]] == 0:
+            return -1
 
-        #queue[j] 도착
-        if ind+num[j]-1 >= len(route[rt]):
-            #print(ind)
-            ind = len(route[rt])-num[j]
-            #print('arrived', ind)
+        score += board[pathNumber][position + number[i]]
+        cur[queue[i]] = board[pathNumber][position + number[i]]
+        path[queue[i]] = [pathNumber, position + number[i]]
 
-
-        #도착지점 말 존재
-        if route[rt][ind+num[j]-1] in cursor:
-            if route[rt][ind+num[j]-1] != 0:
-                return -1
-
-        score += route[rt][ind+num[j]-1]
-        cursor[queue[j]] = route[rt][ind + num[j] - 1]
-        if result[queue[j]][1] + num[j] >= len(route[rt]):
-            result[queue[j]][1] = len(route[rt])-1
-        else:
-            result[queue[j]][1] += num[j]
-
-
-        #지름길 선택
-        #print(rt, result[queue[j]][1]-1, "haha")
-        if route[rt][result[queue[j]][1]-1] % 10 == 0 and route[rt][result[queue[j]][1]-1] != 40:
-            result[queue[j]][0] = route[rt][result[queue[j]][1]-1] // 10
-            result[queue[j]][1] = 0
-        #print(score)
-    #print(score, "one loop")
+        if cur[queue[i]] % 10 == 0 and cur[queue[i]] != 40:
+            path[queue[i]][0] = cur[queue[i]] // 10
+            path[queue[i]][1] = -1
+    #print(cur)
+    #print()
     return score
 
 
@@ -61,16 +48,10 @@ def comb(d):
     if d == 10:
         answer = max(answer, move())
         return
-    for i in rook:
+    for i in range(4):
         queue.append(i)
         comb(d+1)
         queue.pop()
 
-print('start')
 comb(0)
-
-
-
-end_time = time.time()
 print(answer)
-print(end_time-start_time)
